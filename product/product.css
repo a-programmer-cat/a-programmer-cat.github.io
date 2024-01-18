@@ -3,17 +3,17 @@
     padding: 0;
 }
 
-.about {
+.product {
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-.about_bgc {
+.product_bgc {
     width: 100%
 }
 
-.about_tit {
+.product_tit {
     position: absolute;
     top: 280px;
     left: 0;
