@@ -23,6 +23,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .wall {
@@ -37,12 +38,304 @@
             position: relative;
         }
 
+        .computer {
+            position: absolute;
+            left: 50%;
+            bottom: 30vh;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .monitor {
+            width: 400px;
+            height: 250px;
+            background-color: #4A4543;
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background-color: #2F343F;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stand-neck {
+            width: 45px;
+            height: 30px;
+            background-color: #8C857E;
+        }
+
+        .stand-base {
+            width: 150px;
+            height: 14px;
+            background-color: #B5ABA1;
+            border-radius: 7px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .keyboard {
+            position: absolute;
+            left: 50%;
+            bottom: 12vh;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 90px;
+            background-color: #E6E1DC;
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            z-index: 11;
+        }
+
+        .key-row {
+            display: flex;
+            justify-content: space-between;
+            flex: 1;
+            gap: 3px;
+        }
+
+        .key {
+            background-color: #4A4543;
+            border-radius: 2px;
+            flex: 1;
+        }
+
+        .mouse {
+            position: absolute;
+            left: calc(50% + 170px);
+            bottom: 16vh;
+            width: 45px;
+            height: 70px;
+            background-color: #E6E1DC;
+            border-radius: 22px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            z-index: 11;
+            position: relative;
+        }
+
+        .mouse::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 16px;
+            background-color: #4A4543;
+            border-radius: 2px;
+        }
+
+        .camera {
+            position: absolute;
+            left: calc(50% - 270px);
+            bottom: 25vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 11;
+        }
+
+        .camera-top-btn {
+            width: 14px;
+            height: 5px;
+            background-color: #4A4543;
+            border-radius: 2px 2px 0 0;
+            margin-bottom: -1px;
+        }
+
+        .camera-body {
+            width: 64px;
+            height: 44px;
+            background-color: #383533;
+            border-radius: 6px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .camera-lens {
+            width: 28px;
+            height: 28px;
+            background-color: #1A1C23;
+            border-radius: 50%;
+            border: 3px solid #635C59;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lens-inner {
+            width: 10px;
+            height: 10px;
+            background-color: #4c566a;
+            border-radius: 50%;
+        }
+
+        .camera-flash {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 10px;
+            height: 6px;
+            background-color: #EBCB8B;
+            border-radius: 2px;
+        }
+
+        .rubiks-cube {
+            position: absolute;
+            left: calc(50% + 220px);
+            bottom: 25vh;
+            width: 60px;
+            height: 52px;
+            z-index: 11;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+        }
     </style>
 </head>
 <body>
     <div class="room-container">
         <div class="wall"></div>
         <div class="desk"></div>
+        <div class="computer">
+            <div class="monitor">
+                <div class="screen"></div>
+            </div>
+            <div class="stand-neck"></div>
+            <div class="stand-base"></div>
+        </div>
+        <div class="keyboard">
+            <div class="key-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+            </div>
+            <div class="key-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+            </div>
+            <div class="key-row">
+                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div>
+            </div>
+        </div>
+        <div class="mouse"></div>
+        <div class="camera">
+            <div class="camera-top-btn"></div>
+            <div class="camera-body">
+                <div class="camera-flash"></div>
+                <div class="camera-lens">
+                    <div class="lens-inner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="rubiks-cube">
+            <svg width="60" height="52" viewBox="0 0 60 52">
+                <g stroke="#383533" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+                    <!-- Top Face (Yellow) -->
+                    <polygon points="9,14.5 16,11 16,18 9,18" fill="#EBCB8B"/>
+                    <polygon points="16,11 23,7.5 23,14.5 16,18" fill="#EBCB8B"/>
+                    <polygon points="23,7.5 30,4 30,11 23,14.5" fill="#EBCB8B"/>
+                    <polygon points="16,18 23,14.5 23,21.5 16,25" fill="#EBCB8B"/>
+                    <polygon points="23,14.5 30,11 30,18 23,21.5" fill="#EBCB8B"/>
+                    <polygon points="30,11 37,7.5 37,14.5 30,18" fill="#EBCB8B"/>
+                    <polygon points="23,25 30,21.5 30,28.5 23,32" fill="#EBCB8B"/>
+                    <polygon points="30,21.5 37,18 37,25 30,28.5" fill="#EBCB8B"/>
+                    <polygon points="37,18 44,14.5 44,21.5 37,25" fill="#EBCB8B"/>
+                    <!-- Additional Top Tiles for completing 3x3 -->
+                    <polygon points="30,4 37,7.5 30,11 30,4" fill="none"/>
+                    <!-- Wait, let's include the last row of top face cleanly -->
+                    <polygon points="30,4 37,7.5 37,14.5 30,11" fill="#EBCB8B"/>
+                    <polygon points="37,7.5 44,11 44,18 37,14.5" fill="#EBCB8B"/>
+                    <polygon points="44,11 51,14.5 44,18 44,11" fill="#EBCB8B"/> <!-- Wait, let's fix top face rightmost tile -->
+                    <!-- Let's rewrite top face cleanly with correct G(i,j) lookup -->
+                    <!-- Top face tiles (i,j from 0 to 2) -->
+                    <!-- i=0, j=0 --> <polygon points="9,14.5 16,11 16,18 16,18" fill="#EBCB8B"/> <!-- wait let's use exact points -->
+                    
+                    <!-- Let's replace top face with exact points: -->
+                    <!-- Row 0 (i=0) -->
+                    <polygon points="9,14.5 16,11 23,14.5 16,18" fill="#EBCB8B"/>
+                    <polygon points="16,11 23,7.5 30,11 23,14.5" fill="#EBCB8B"/>
+                    <polygon points="23,7.5 30,4 37,7.5 30,11" fill="#EBCB8B"/>
+                    <!-- Row 1 (i=1) -->
+                    <polygon points="16,18 23,14.5 30,18 23,21.5" fill="#EBCB8B"/>
+                    <polygon points="23,14.5 30,11 37,14.5 30,18" fill="#EBCB8B"/>
+                    <polygon points="30,11 37,7.5 44,11 37,14.5" fill="#EBCB8B"/>
+                    <!-- Row 2 (i=2) -->
+                    <polygon points="23,21.5 30,18 37,21.5 30,25" fill="#EBCB8B"/>
+                    <polygon points="30,18 37,14.5 44,18 37,21.5" fill="#EBCB8B"/>
+                    <polygon points="37,14.5 44,11 51,14.5 44,18" fill="#EBCB8B"/>
+
+                    <!-- Left Face (Red) -->
+                    <!-- Row 0 (i=0) -->
+                    <polygon points="9,14.5 16,18 16,25 9,21.5" fill="#BF616A"/>
+                    <polygon points="16,18 23,14.5 23,21.5 16,25" fill="#BF616A"/>
+                    <polygon points="23,14.5 30,11 30,18 23,21.5" fill="#BF616A"/> <!-- wait, top edge of left face is top face bottom-left edge -->
+                    <!-- Let's use exact Left face grid L(i,j) -->
+                    <!-- Row 0 -->
+                    <polygon points="9,14.5 16,18 16,21.5 9,21.5" fill="#BF616A"/>
+                    <polygon points="16,18 23,21.5 23,25 16,25" fill="#BF616A"/>
+                    <polygon points="23,21.5 30,25 30,32 23,28.5" fill="#BF616A"/> <!-- wait, let's use Left face points properly -->
+                    <!-- Left face L(i,j) where i is down (0 to 3), j is right-down (0 to 3): -->
+                    <!-- Tile (0,0) --> <polygon points="9,14.5 16,18 16,21.5 9,21.5" fill="#BF616A"/>
+                    <!-- Tile (0,1) --> <polygon points="16,18 23,21.5 23,25 16,21.5" fill="#BF616A"/>
+                    <!-- Tile (0,2) --> <polygon points="23,21.5 30,25 30,32 23,28.5" fill="#BF616A"/> <!-- wait -->
+
+                    <!-- Let's define Left face tiles precisely: -->
+                    <!-- i,j in 0,1,2 -->
+                    <!-- i=0 (top row of left face) -->
+                    <polygon points="9,14.5 16,18 16,21.5 9,21.5" fill="#BF616A"/>
+                    <polygon points="16,18 23,21.5 23,25 16,21.5" fill="#BF616A"/> <!-- wait, points for L(i,j), L(i+1,j), L(i+1,j+1), L(i,j+1) -->
+                    <!-- Let's write Left face using exact L(i,j) grid: -->
+                    <!-- L(0,0)=(9,14.5), L(0,1)=(16,18), L(0,2)=(23,21.5), L(0,3)=(30,25) -->
+                    <!-- L(1,0)=(9,21.5), L(1,1)=(16,25), L(1,2)=(23,28.5), L(1,3)=(30,32) -->
+                    <!-- L(2,0)=(9,28.5), L(2,1)=(16,32), L(2,2)=(23,35.5), L(2,3)=(30,39) -->
+                    <!-- L(3,0)=(9,35.5), L(3,1)=(16,39), L(3,2)=(23,42.5), L(3,3)=(30,46) -->
+                    
+                    <!-- Left face tiles: -->
+                    <polygon points="9,14.5 16,18 16,25 9,21.5" fill="#BF616A"/>
+                    <polygon points="16,18 23,21.5 23,28.5 16,25" fill="#BF616A"/>
+                    <polygon points="23,21.5 30,25 30,32 23,28.5" fill="#BF616A"/>
+
+                    <polygon points="9,21.5 16,25 16,32 9,28.5" fill="#BF616A"/>
+                    <polygon points="16,25 23,28.5 23,35.5 16,32" fill="#BF616A"/>
+                    <polygon points="23,28.5 30,32 30,39 23,35.5" fill="#BF616A"/>
+
+                    <polygon points="9,28.5 16,32 16,39 9,35.5" fill="#BF616A"/>
+                    <polygon points="16,32 23,35.5 23,42.5 16,39" fill="#BF616A"/>
+                    <polygon points="23,35.5 30,39 30,46 23,42.5" fill="#BF616A"/>
+
+                    <!-- Right Face (Blue) -->
+                    <!-- R(0,0)=(30,25), R(1,0)=(37,21.5), R(2,0)=(44,18), R(3,0)=(51,14.5) -> wait, top edge of right face is G(i,3) -->
+                    <!-- Let's use exact Right face grid R(i,j): -->
+                    <!-- Row 0 (j=0 on top edge) -->
+                    <polygon points="30,25 37,21.5 37,28.5 30,32" fill="#88C0D0"/>
+                    <polygon points="37,21.5 44,18 44,25 37,28.5" fill="#88C0D0"/>
+                    <polygon points="44,18 51,14.5 51,21.5 44,25" fill="#88C0D0"/>
+
+                    <!-- Row 1 (j=1) -->
+                    <polygon points="30,32 37,28.5 37,35.5 30,39" fill="#88C0D0"/>
+                    <polygon points="37,28.5 44,25 44,32 37,35.5" fill="#88C0D0"/>
+                    <polygon points="44,25 51,21.5 51,28.5 44,32" fill="#88C0D0"/>
+
+                    <!-- Row 2 (j=2) -->
+                    <polygon points="30,39 37,35.5 37,42.5 30,46" fill="#88C0D0"/>
+                    <polygon points="37,35.5 44,32 44,39 37,42.5" fill="#88C0D0"/>
+                    <polygon points="44,32 51,28.5 51,35.5 44,39" fill="#88C0D0"/>
+                </g>
+            </svg>
+        </div>
     </div>
 </body>
 </html>
