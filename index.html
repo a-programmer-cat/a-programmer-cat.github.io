@@ -3,251 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samuel Kong | Portfolio</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&family=Fira+Code&display=swap" rel="stylesheet">
-    
+    <title>Samuel's Interactive CSS Desk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #050505;
-            --primary: #00f2fe;
-            --secondary: #4facfe;
-            --card-glass: rgba(255, 255, 255, 0.05);
-            --border-glass: rgba(255, 255, 255, 0.1);
+            --bg-color: #1a1a24;
+            --desk-color: #e5a97a;
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: #fff;
-            overflow-x: hidden;
-            cursor: none;
-        }
+        body { margin: 0; height: 100vh; background-color: var(--bg-color); font-family: 'Poppins', sans-serif; overflow: hidden; }
 
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: rgba(0, 242, 254, 0.5);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            z-index: 9999;
-            box-shadow: 0 0 15px var(--primary);
+        .desk {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 90vw; height: 85vh; background: linear-gradient(135deg, #d39566, #e5a97a);
+            border-radius: 20px; border: 8px solid #b87b4e;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 100px rgba(0,0,0,0.1);
         }
-
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            animation: float 10s infinite ease-in-out alternate;
-        }
-        .blob-1 { width: 400px; height: 400px; background: rgba(79, 172, 254, 0.15); top: -100px; left: -100px; }
-        .blob-2 { width: 300px; height: 300px; background: rgba(0, 242, 254, 0.1); bottom: 10%; right: -50px; animation-delay: -5s; }
-        @keyframes float { 100% { transform: translateY(50px) scale(1.1); } }
-
-        .navbar {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 15, 15, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 12px 30px;
-            border-radius: 50px;
-            border: 1px solid var(--border-glass);
-            z-index: 1000;
-            display: flex;
-            gap: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .navbar button { 
-            background: none; border: none; color: #aaa; font-family: 'Inter', sans-serif;
-            font-weight: 500; font-size: 0.9em; cursor: none; transition: 0.3s; 
-        }
-        .navbar button.active, .navbar button:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
-
-        .page {
-            display: none; 
-            min-height: 100vh;
-            padding: 100px 10%;
-            animation: fadeIn 0.6s ease-out;
-        }
-        .page.active { display: flex; flex-direction: column; justify-content: center; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .glass-card {
-            background: var(--card-glass);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-glass);
-            border-radius: 20px;
-            padding: 40px;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .glass-card:hover { border-color: rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(79, 172, 254, 0.2); }
         
-        .title-gradient { font-size: 3rem; font-weight: 900; background: -webkit-linear-gradient(45deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .typewriter { font-family: 'Fira Code', monospace; font-size: 1.2rem; color: #888; height: 30px; margin-bottom: 30px; }
-        .tag { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; font-size: 0.8rem; font-family: 'Fira Code', monospace; color: var(--primary); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); opacity: 0; pointer-events: none; transition: 0.5s; z-index: 10; }
+        .camera-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; opacity: 0; pointer-events: none; z-index: 999; }
+        @keyframes flash-anim { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
-        .timeline { border-left: 3px solid var(--border-glass); padding-left: 20px; margin-left: 10px; }
-        .timeline-item { position: relative; margin-bottom: 30px; transition: 0.3s; cursor: none; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -28px; top: 5px; width: 12px; height: 12px;
-            background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary);
-            transition: 0.3s;
+        .nameplate {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: #d4af37; padding: 15px 40px; border-radius: 5px;
+            color: #2c3e50; font-weight: 800; font-size: 1.5rem; letter-spacing: 2px;
+            border: 3px solid #b5952f; box-shadow: 5px 10px 15px rgba(0,0,0,0.3);
+            cursor: pointer; transition: 0.3s; z-index: 5;
         }
-        .timeline-item:hover::before { transform: scale(1.5); }
-        .timeline-item h4 { margin: 0 0 5px 0; color: #fff; }
-        .timeline-item p { margin: 0; color: #aaa; font-size: 0.9em; }
+        .nameplate:hover { transform: translate(-50%, -52%) scale(1.05); }
 
-        /* --- About Grid --- */
-        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
-        
-        .btn {
-            display: inline-block; padding: 12px 30px; margin-top: 20px; border-radius: 50px;
-            background: linear-gradient(45deg, var(--secondary), var(--primary)); color: #fff;
-            text-decoration: none; font-weight: bold; cursor: none; transition: 0.3s;
+        .laptop {
+            position: absolute; top: 15%; left: 20%; width: 140px; height: 90px;
+            background: #2c3e50; border-radius: 10px; cursor: pointer;
+            box-shadow: 5px 10px 15px rgba(0,0,0,0.4); transition: transform 0.3s; z-index: 5;
         }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 254, 0.4); }
+        .laptop-screen {
+            position: absolute; top: 5px; left: 5px; right: 5px; bottom: 15px;
+            background: #111; border-radius: 5px; transition: 0.5s;
+        }
+        .laptop-keyboard {
+            position: absolute; bottom: 5px; left: 20%; right: 20%; height: 5px;
+            background: #444; border-radius: 2px;
+        }
+        .laptop:hover { transform: scale(1.05) translateY(-5px); }
+        .laptop.active .laptop-screen { background: #00f2fe; box-shadow: 0 0 20px #00f2fe; }
+        .laptop.active .laptop-screen::after { content: "</>"; color: #fff; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; font-family: monospace; }
 
+        .camera {
+            position: absolute; top: 70%; left: 15%; width: 90px; height: 60px;
+            background: #34495e; border-radius: 8px; cursor: pointer;
+            box-shadow: 5px 10px 15px rgba(0,0,0,0.4); transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 5;
+        }
+        .camera-lens {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: #111; border-radius: 50%;
+            border: 4px solid #7f8c8d; box-shadow: inset 0 0 10px rgba(255,255,255,0.2);
+        }
+        .camera-button { position: absolute; top: -5px; right: 15px; width: 15px; height: 5px; background: #e74c3c; border-radius: 3px 3px 0 0; }
+        .camera:hover { transform: scale(1.1) translateY(-5px) rotate(-5deg); }
+        .camera.active { position: fixed; top: 50%; left: 35%; transform: translate(-50%, -50%) scale(2.5); z-index: 20; box-shadow: 0 30px 40px rgba(0,0,0,0.6); }
+
+        .book {
+            position: absolute; top: 20%; right: 20%; width: 80px; height: 110px;
+            background: #2980b9; border-radius: 2px 10px 10px 2px; cursor: pointer;
+            box-shadow: 5px 10px 15px rgba(0,0,0,0.4); border-left: 5px solid #1c5980;
+            transition: all 0.5s; z-index: 5; perspective: 1000px;
+        }
+        .book::after { content: 'MATH'; color: rgba(255,255,255,0.5); font-weight: bold; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(90deg); letter-spacing: 2px; }
+        .book-pages { position: absolute; top: 5px; bottom: 5px; right: 0; width: 10px; background: #fff; border-radius: 0 8px 8px 0; }
+        .book:hover { transform: scale(1.05) translateY(-5px); }
+        .book.active { transform: scale(1.5) translateX(-50px) rotateY(-20deg); z-index: 20; }
+
+        .medal {
+            position: absolute; top: 65%; right: 25%; width: 50px; height: 50px;
+            background: #f1c40f; border-radius: 50%; cursor: pointer;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2), 5px 10px 15px rgba(0,0,0,0.4);
+            border: 3px solid #f39c12; transition: all 0.5s; z-index: 5; transform-origin: top center;
+        }
+        .medal-ribbon {
+            position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+            width: 20px; height: 40px; background: linear-gradient(to right, #e74c3c 33%, #fff 33%, #fff 66%, #e74c3c 66%);
+            z-index: -1; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+        }
+        .medal::after { content: '1'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 800; color: #d35400; font-size: 1.2rem; }
+        .medal:hover { transform: scale(1.1); }
+        .medal.active { animation: swing 1.5s infinite ease-in-out; z-index: 20; }
+        @keyframes swing { 0%, 100% { transform: scale(1.5) rotate(-15deg); } 50% { transform: scale(1.5) rotate(15deg); } }
+
+        .info-card {
+            position: fixed; top: 50%; left: 70%; transform: translate(-50%, -50%) translateX(100px) scale(0.9);
+            background: var(--card-bg); width: 350px; padding: 30px; border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 20;
+            opacity: 0; pointer-events: none; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .info-card.show { opacity: 1; transform: translate(-50%, -50%) translateX(0) scale(1); pointer-events: auto; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #666; font-weight: bold; }
+        .close-btn:hover { color: #e74c3c; }
+        .card-title { font-size: 1.5rem; font-weight: 800; color: #333; margin: 0 0 15px 0; border-bottom: 3px solid #3498db; padding-bottom: 5px; display: inline-block; }
+        .card-desc { color: #555; font-size: 0.95rem; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-    <div class="cursor" id="custom-cursor"></div>
+    <div class="overlay" id="overlay" onclick="closeItem()"></div>
+    <div class="camera-flash" id="cameraFlash"></div>
 
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
+    <div class="info-card" id="infoCard">
+        <div class="close-btn" onclick="closeItem()">✖</div>
+        <h2 class="card-title" id="cardTitle">Title</h2>
+        <div class="card-desc" id="cardDesc">Description goes here.</div>
+    </div>
 
-    <nav class="navbar">
-        <button class="active" onclick="showPage('home')">Home</button>
-        <button onclick="showPage('about')">About Me</button>
-        <button onclick="showPage('projects')">Projects</button>
-        <button onclick="showPage('awards')">Awards</button>
-    </nav>
-
-    <section id="home" class="page active">
-        <div style="text-align: center;">
-            <h1>Hi, I'm <span class="title-gradient">Samuel Kong</span></h1>
-            <div class="typewriter" id="typed-strings"></div>
-            <p style="color: #aaa; max-width: 600px; margin: 20px auto; line-height: 1.6;">
-                A motivated Form 3 student at SMK Sacred Heart. I build tech for the community, lead scout teams, play the bagpipes, and constantly seek new challenges.
-            </p>
-            <button class="btn" onclick="showPage('about')">Discover My Journey</button>
+    <div class="desk">
+        
+        <div class="nameplate" onclick="triggerInteraction(this, 'Samuel Kong', 'Welcome! I am a Form 3 student who loves coding, physics, scouting, and solving problems. Everything here is drawn purely with CSS!')">
+            SAMUEL KONG
         </div>
-    </section>
 
-    <section id="about" class="page">
-        <h2 class="title-gradient" style="text-align: center; margin-bottom: 40px;">Beyond the Screen</h2>
-        <div class="about-grid">
-            <div class="glass-card" data-tilt data-tilt-max="5">
-                <h3>👑 Leadership & Speaking</h3>
-                <p style="color: #aaa;">Vice Head Prefect II at SMK Sacred Heart. Placed 9th in the 20th Toastmasters International Youth Leadership Camp Impromptu Speech Contest. Always striving to lead by example and communicate effectively.</p>
-            </div>
-            <div class="glass-card" data-tilt data-tilt-max="5">
-                <h3>⚜️ Scouting & Outdoors</h3>
-                <p style="color: #aaa;">Committee Member (First Aid) of 2nd Sibu Scout. Earned multiple skill badges and participated in Jota Camp, Sarawak Scout Eco Run. I love the discipline and teamwork of the outdoors.</p>
-            </div>
-            <div class="glass-card" data-tilt data-tilt-max="5">
-                <h3>🥁 Music & Martial Arts</h3>
-                <p style="color: #aaa;">Drum Major & Side Drummer of the Scout Bagpipe Band, performing in city parades. I also hold a Grade 8 in Taekwondo (MTA). Balance between arts and sports keeps me grounded.</p>
-            </div>
+        <div class="laptop item" id="laptop" onclick="triggerInteraction(this, 'Coding & Tech', '<b>CyberSavvy & Flood-Res:</b><br>I code to solve real problems. My screen is lit up with new ideas for Web, AI, and IoT development.')">
+            <div class="laptop-screen"></div>
+            <div class="laptop-keyboard"></div>
         </div>
-    </section>
 
-    <section id="projects" class="page">
-        <h2 class="title-gradient" style="text-align: center; margin-bottom: 40px;">Tech for Good</h2>
-        <div class="about-grid">
-            <div class="glass-card" data-tilt>
-                <h3>🛡️ CyberSavvy</h3>
-                <p style="color: #aaa; height: 100px;">An anti-scam platform created to protect local elderly and youth, inspired by a personal family experience. Features interactive quizzes and emergency guides.</p>
-                <span class="tag">Web Dev</span>
-                <span class="tag">Community</span>
-            </div>
-            <div class="glass-card" data-tilt>
-                <h3>🌊 Flood-Res</h3>
-                <p style="color: #aaa; height: 100px;">A live flood warning system inspired by the Bintulu floods. Combines local weather data and location tracking to provide early warnings.</p>
-                <span class="tag">IoT & Data</span>
-                <span class="tag">UI/UX</span>
-            </div>
+        <div class="camera item" id="camera" onclick="triggerInteraction(this, 'Photography & Life', 'Say Cheese! 📸<br><br>Outside of coding and math, I love capturing moments, running for fitness, and performing in the Bagpipe band.')">
+            <div class="camera-button"></div>
+            <div class="camera-lens"></div>
         </div>
-    </section>
 
-    <section id="awards" class="page">
-        <div class="glass-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
-            <h2 class="title-gradient" style="margin-top: 0;">Hall of Fame</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h4>🏆 Sarawak Space Apps Challenge (Junior)</h4>
-                    <p>2025 • Champion</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>🥇 Science Castle Malaysia (National)</h4>
-                    <p>2025 • Gold Award</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>🥈 Coolest Projects Malaysia (Senior Web)</h4>
-                    <p>2025 • 1st Runner Up (CyberSavvy)</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>🧠 Kangaroo Math Competition</h4>
-                    <p>2021, 2023 (Gold) • 2025 (Silver)</p>
-                </div>
-                <div class="timeline-item">
-                    <h4>🏅 Catholic High Sibu Math & Science</h4>
-                    <p>2023 • Champion (Individual Category)</p>
-                </div>
-            </div>
+        <div class="book item" id="book" onclick="triggerInteraction(this, 'Math & Physics', '<b>AddMath Enthusiast</b><br><br>Multiple Gold & Silver awards in the Kangaroo Math Competition. I enjoy finding the logic behind how the universe operates.')">
+            <div class="book-pages"></div>
         </div>
-    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+        <div class="medal item" id="medal" onclick="triggerInteraction(this, 'Achievements', '🏆 Champion - Sarawak Space Apps Challenge (2025)<br>🥇 Gold - Science Castle Malaysia<br>🥈 1st Runner Up - BugCrusher Hackathon')">
+            <div class="medal-ribbon"></div>
+        </div>
+
+    </div>
 
     <script>
-        var typed = new Typed("#typed-strings", {
-            strings: [
-                "A Developer.", 
-                "A Drum Major.", 
-                "A Scout Leader.",
-                "A Math Enthusiast."
-            ],
-            typeSpeed: 50, backSpeed: 30, backDelay: 1500, loop: true
-        });
+        let currentItem = null;
 
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        
-        const interactiveElements = document.querySelectorAll('button, .glass-card, .timeline-item');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.width = '50px';
-                cursor.style.height = '50px';
-                cursor.style.background = 'rgba(0, 242, 254, 0.2)';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.style.width = '20px';
-                cursor.style.height = '20px';
-                cursor.style.background = 'rgba(0, 242, 254, 0.5)';
-            });
-        });
-
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.querySelectorAll('.navbar button').forEach(btn => {
-                btn.classList.remove('active');
-            });
+        function triggerInteraction(element, title, desc) {
+            if(currentItem === element) return;
             
-            document.getElementById(pageId).classList.add('active');
-            event.target.classList.add('active');
+            if(currentItem) {
+                closeItem();
+                setTimeout(() => openLogic(element, title, desc), 600);
+            } else {
+                openLogic(element, title, desc);
+            }
+        }
+
+        function openLogic(element, title, desc) {
+            currentItem = element;
+            
+            if (element.id === 'camera') {
+                const flash = document.getElementById('cameraFlash');
+                flash.style.animation = 'none';
+                setTimeout(() => { flash.style.animation = 'flash-anim 0.5s ease-out'; }, 400);
+            }
+
+            element.classList.add('active');
+            
+            document.getElementById('overlay').style.opacity = '1';
+            document.getElementById('overlay').style.pointerEvents = 'auto';
+            document.getElementById('cardTitle').innerHTML = title;
+            document.getElementById('cardDesc').innerHTML = desc;
+            
+            setTimeout(() => {
+                document.getElementById('infoCard').classList.add('show');
+            }, 300);
+        }
+
+        function closeItem() {
+            if(!currentItem) return;
+
+            currentItem.classList.remove('active');
+            currentItem = null;
+
+            document.getElementById('infoCard').classList.remove('show');
+            document.getElementById('overlay').style.opacity = '0';
+            document.getElementById('overlay').style.pointerEvents = 'none';
         }
     </script>
 </body>
