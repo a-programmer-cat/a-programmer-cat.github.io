@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Samuel Kong - Interactive Portfolio</title>
+    <title>Samuel Kong - Portfolio</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,80 +15,47 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #2b2b2b;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
         }
 
         .room-container {
-            position: relative;
             width: 100vw;
             height: 100vh;
             display: flex;
             flex-direction: column;
+            border: 4px solid #2b2b2b;
         }
 
         .wall {
             flex: 5.5;
-            background: linear-gradient(135deg, #f7efe5 0%, #ede0d4 100%);
+            background-color: #fceade;
             position: relative;
-            box-shadow: inset 0 -20px 30px rgba(0, 0, 0, 0.04);
-        }
-
-        .wall::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background: #d4a373;
-            border-top: 2px solid #faedcd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 4px solid #2b2b2b;
         }
 
         .desk {
             flex: 4.5;
-            background: linear-gradient(180deg, #b08968 0%, #7f5539 100%);
+            background-color: #d89663;
             position: relative;
-            border-top: 20px solid #9c6644;
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3), inset 0 12px 15px rgba(255, 255, 255, 0.15);
+            border-top: 4px solid #2b2b2b;
         }
 
         .desk::before {
             content: '';
             position: absolute;
-            top: -20px;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.35);
-        }
-
-        .hint {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            letter-spacing: 1px;
-            pointer-events: none;
-            backdrop-filter: blur(4px);
+            height: 16px;
+            background-color: #eab48a;
+            border-bottom: 3px solid #2b2b2b;
         }
     </style>
 </head>
 <body>
-
     <div class="room-container">
-        <div class="hint">Samuel Kong's Interactive Desk - Step 1</div>
-
         <div class="wall"></div>
-
         <div class="desk"></div>
     </div>
-
 </body>
 </html>
