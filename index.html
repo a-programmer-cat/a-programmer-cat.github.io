@@ -1,103 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Samuel Kong | Portfolio</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&family=Fira+Code&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;
+            --bg-dark: #050505;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --card-glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
         }
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .blob-1 { width: 400px; height: 400px; background: rgba(79, 172, 254, 0.15); top: -100px; left: -100px; }
+        .blob-2 { width: 300px; height: 300px; background: rgba(0, 242, 254, 0.1); bottom: 10%; right: -50px; animation-delay: -5s; }
+        @keyframes float { 100% { transform: translateY(50px) scale(1.1); } }
+
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 15, 15, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 12px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--border-glass);
+            z-index: 1000;
             display: flex;
-            justify-content: center;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            width: 100%;
-        }
-        .bento-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
+        .navbar a { color: #aaa; text-decoration: none; font-weight: 500; font-size: 0.9em; transition: 0.3s; }
+        .navbar a:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
+
+        section {
+            min-height: 100vh;
+            padding: 100px 10%;
             display: flex;
             flex-direction: column;
-            transform-style: preserve-3d; /* 开启 3D 空间 */
+            justify-content: center;
         }
-        /* 使内容在 3D 倾斜时有浮出效果 */
-        .bento-card > * {
-            transform: translateZ(30px);
+
+        .hero { text-align: center; }
+        .hero h1 { font-size: 4rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -2px; }
+        .hero h1 span { background: -webkit-linear-gradient(45deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .typewriter { font-family: 'Fira Code', monospace; font-size: 1.5rem; color: #888; height: 40px; margin-bottom: 30px; }
+        
+        .glass-card {
+            background: var(--card-glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            padding: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .hero { grid-column: 1 / -1; }
-        .hero h1 { margin-top: 0; font-size: 2.5em; color: var(--accent); }
-        .hero .quote { font-style: italic; color: var(--text-muted); margin-top: 20px; border-left: 3px solid var(--accent); padding-left: 10px;}
-        .card-title { font-size: 1.2em; font-weight: bold; margin-bottom: 10px; }
-        .card-desc { color: var(--text-muted); font-size: 0.95em; line-height: 1.5; }
-        .tag { display: inline-block; background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 5px 10px; border-radius: 8px; font-size: 0.8em; margin: 5px 5px 0 0; }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        .glass-card:hover { border-color: rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(79, 172, 254, 0.2); }
+
+        .quote { font-style: italic; color: #aaa; border-left: 4px solid var(--primary); padding-left: 15px; text-align: left; max-width: 600px; margin: 40px auto 0; }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .project-card h3 { font-size: 1.8rem; margin: 0 0 15px 0; }
+        .project-card p { color: #aaa; line-height: 1.6; }
+        .tags { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .tag { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; font-size: 0.8rem; font-family: 'Fira Code', monospace;}
+
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 254, 0.4); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .navbar { width: 80%; justify-content: center; padding: 10px 20px; gap: 15px; }
+            section { padding: 80px 5%; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bento-grid">
-        <div class="bento-card hero" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.1">
-            <h1>Hi, I'm Samuel Kong 👨‍💻</h1>
-            <p class="card-desc">A boy who loves coding, learning, and researching new things across all fields—AI, Hardware, IoT, Game Dev, and Web. Passionate about Physics, AddMath, and using STEM to build tools that matter.</p>
-            <p class="quote">"Seek his will in all you do, and he will show you which path to take." — Proverbs 3:6</p>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <nav class="navbar" data-aos="fade-down" data-aos-duration="1000">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <section id="home" class="hero">
+        <h1 data-aos="fade-up">Hi, I'm <span>Samuel Kong</span></h1>
+        <div class="typewriter" id="typed-strings"></div>
+        
+        <div data-aos="zoom-in" data-aos-delay="300" style="margin-top: 20px;">
+            <a href="#projects" class="btn">Explore My Work ↓</a>
         </div>
 
-        <div class="bento-card" data-tilt data-tilt-max="10">
-            <div class="card-title">🛡️ CyberSavvy</div>
-            <p class="card-desc">An anti-scam platform created to protect the elderly and youth after a personal family experience. Features game-like quizzes and emergency guides.</p>
-            <div>
-                <span class="tag">Coolest Projects 1st Runner Up</span>
-                <span class="tag">Web Dev</span>
+        <div class="glass-card quote" data-aos="fade-up" data-aos-delay="500">
+            "Seek his will in all you do, and he will show you which path to take." <br>— Proverbs 3:6
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 20px;" data-aos="fade-right">Featured Projects</h2>
+        <div class="projects-grid">
+            
+            <div class="glass-card project-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up">
+                <h3>🛡️ CyberSavvy</h3>
+                <p>An anti-scam platform created to protect local elderly and youth. Inspired by my grandfather's experience, it features game-like quizzes, emergency guides, and multi-language support (English, Malay, Chinese) for the Sibu community.</p>
+                <div class="tags">
+                    <span class="tag">🏆 Coolest Projects 1st Runner Up</span>
+                    <span class="tag">Web Dev</span>
+                    <span class="tag">Community</span>
+                </div>
+                <a href="#" class="btn" style="padding: 8px 20px; font-size: 0.9em; margin-top: 20px;">View GitHub ↗</a>
             </div>
-        </div>
 
-        <div class="bento-card" data-tilt data-tilt-max="10">
-            <div class="card-title">🌊 Flood-Res</div>
-            <p class="card-desc">A live flood warning system inspired by the Bintulu floods. Combines local weather data to help families prepare for seasonal flash floods.</p>
-            <div>
-                <span class="tag">Science Castle Gold Award</span>
-                <span class="tag">Data & IoT</span>
+            <div class="glass-card project-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="200">
+                <h3>🌊 Flood-Res</h3>
+                <p>A live flood warning system inspired by the devastating Bintulu floods. Combines local weather data and location tracking to provide early warnings and turn complex weather data into practical safety tips for families.</p>
+                <div class="tags">
+                    <span class="tag">🏆 Science Castle Gold Award</span>
+                    <span class="tag">IoT & Data</span>
+                    <span class="tag">UI/UX</span>
+                </div>
+                <a href="#" class="btn" style="padding: 8px 20px; font-size: 0.9em; margin-top: 20px;">Live Demo ↗</a>
             </div>
-        </div>
 
-        <div class="bento-card" data-tilt data-tilt-max="10">
-            <div class="card-title">🏆 Top Honors</div>
-            <ul class="card-desc" style="padding-left: 20px; margin-top: 0;">
-                <li>Sarawak Space Apps Champion (2025)</li>
-                <li>BugCrusher Junior Hackathon 1st Runner Up</li>
-                <li>Kangaroo Math Gold (2021, 2023) & Silver (2025)</li>
+        </div>
+    </section>
+
+    <section id="awards">
+        <div class="glass-card" data-aos="flip-up" style="max-width: 800px; margin: 0 auto; width: 100%;">
+            <h2 style="font-size: 2rem; color: var(--primary);">Milestones & Achievements</h2>
+            <ul style="line-height: 2.5; color: #ccc; font-size: 1.1rem; padding-left: 20px;">
+                <li><strong>2025:</strong> Champion at Sarawak Space Apps Challenge (Junior)</li>
+                <li><strong>2025:</strong> Gold Award at Science Castle Malaysia (National)</li>
+                <li><strong>2025:</strong> 1st Runner Up at BugCrusher Junior Hackathon</li>
+                <li><strong>2021-2025:</strong> Gold & Silver Awards in Kangaroo Math Competition</li>
             </ul>
+            <hr style="border-color: var(--border-glass); margin: 30px 0;">
+            <h3 style="font-size: 1.5rem;">Beyond Code</h3>
+            <p style="color: #aaa;">Drum Major in Scout Bagpipe Band, actively engaged in scouting, physics, addmath, and fitness running.</p>
         </div>
+    </section>
 
-        <div class="bento-card" data-tilt data-tilt-max="10">
-            <div class="card-title">🔗 Connect</div>
-            <p class="card-desc">
-                📍 Sibu, Sarawak<br><br>
-                <a href="https://github.com/a-programmer-cat" target="_blank">GitHub: a-programmer-cat</a><br><br>
-                <a href="https://www.linkedin.com/in/samuelkongbangkiet/" target="_blank">LinkedIn Profile</a>
-            </p>
+    <section id="contact" style="min-height: 50vh; text-align: center;">
+        <h2 data-aos="fade-in">Let's Build Something Great</h2>
+        <p style="color: #aaa; margin-bottom: 40px;" data-aos="fade-in" data-aos-delay="200">Always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
+        <div data-aos="zoom-in" data-aos-delay="400">
+            <a href="mailto:sakobaki20@gmail.com" class="btn" style="margin-right: 15px;">Email Me</a>
+            <a href="https://github.com/a-programmer-cat" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass);">GitHub</a>
+            <a href="https://www.linkedin.com/in/samuelkongbangkiet/" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass);">LinkedIn</a>
         </div>
-    </div>
+    </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        AOS.init({
+            duration: 800, 
+            once: false, 
+            offset: 100    
+        });
+
+        var options = {
+            strings: [
+                "Full-Stack Web Developer.", 
+                "AI & Hardware Enthusiast.", 
+                "Problem Solver.",
+                "A programmer cat 🐱"
+            ],
+            typeSpeed: 50,
+            backSpeed: 30,
+            backDelay: 1500,
+            loop: true
+        };
+        var typed = new Typed("#typed-strings", options);
+    </script>
 </body>
 </html>
