@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,20 @@
             background-color: var(--bg-dark);
             color: #fff;
             overflow-x: hidden;
+            cursor: none;
+        }
+
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(0, 242, 254, 0.5);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            z-index: 9999;
+            box-shadow: 0 0 15px var(--primary);
         }
 
         .blob {
@@ -49,22 +63,21 @@
             gap: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .navbar a { color: #aaa; text-decoration: none; font-weight: 500; font-size: 0.9em; transition: 0.3s; }
-        .navbar a:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
+        .navbar button { 
+            background: none; border: none; color: #aaa; font-family: 'Inter', sans-serif;
+            font-weight: 500; font-size: 0.9em; cursor: none; transition: 0.3s; 
+        }
+        .navbar button.active, .navbar button:hover { color: #fff; text-shadow: 0 0 10px var(--primary); }
 
-        section {
+        .page {
+            display: none; 
             min-height: 100vh;
             padding: 100px 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            animation: fadeIn 0.6s ease-out;
         }
+        .page.active { display: flex; flex-direction: column; justify-content: center; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero { text-align: center; }
-        .hero h1 { font-size: 4rem; font-weight: 900; margin-bottom: 20px; letter-spacing: -2px; }
-        .hero h1 span { background: -webkit-linear-gradient(45deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .typewriter { font-family: 'Fira Code', monospace; font-size: 1.5rem; color: #888; height: 40px; margin-bottom: 30px; }
-        
         .glass-card {
             background: var(--card-glass);
             backdrop-filter: blur(10px);
@@ -74,143 +87,168 @@
             transition: transform 0.3s, box-shadow 0.3s;
         }
         .glass-card:hover { border-color: rgba(255,255,255,0.3); box-shadow: 0 0 20px rgba(79, 172, 254, 0.2); }
+        
+        .title-gradient { font-size: 3rem; font-weight: 900; background: -webkit-linear-gradient(45deg, var(--secondary), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .typewriter { font-family: 'Fira Code', monospace; font-size: 1.2rem; color: #888; height: 30px; margin-bottom: 30px; }
+        .tag { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; font-size: 0.8rem; font-family: 'Fira Code', monospace; color: var(--primary); }
 
-        .quote { font-style: italic; color: #aaa; border-left: 4px solid var(--primary); padding-left: 15px; text-align: left; max-width: 600px; margin: 40px auto 0; }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-        .project-card h3 { font-size: 1.8rem; margin: 0 0 15px 0; }
-        .project-card p { color: #aaa; line-height: 1.6; }
-        .tags { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
-        .tag { background: rgba(255,255,255,0.1); padding: 5px 12px; border-radius: 30px; font-size: 0.8rem; font-family: 'Fira Code', monospace;}
-
-        .btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
+        .timeline { border-left: 3px solid var(--border-glass); padding-left: 20px; margin-left: 10px; }
+        .timeline-item { position: relative; margin-bottom: 30px; transition: 0.3s; cursor: none; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -28px; top: 5px; width: 12px; height: 12px;
+            background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary);
             transition: 0.3s;
+        }
+        .timeline-item:hover::before { transform: scale(1.5); }
+        .timeline-item h4 { margin: 0 0 5px 0; color: #fff; }
+        .timeline-item p { margin: 0; color: #aaa; font-size: 0.9em; }
+
+        /* --- About Grid --- */
+        .about-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 30px; }
+        
+        .btn {
+            display: inline-block; padding: 12px 30px; margin-top: 20px; border-radius: 50px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary)); color: #fff;
+            text-decoration: none; font-weight: bold; cursor: none; transition: 0.3s;
         }
         .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 242, 254, 0.4); }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .navbar { width: 80%; justify-content: center; padding: 10px 20px; gap: 15px; }
-            section { padding: 80px 5%; }
-        }
     </style>
 </head>
 <body>
 
+    <div class="cursor" id="custom-cursor"></div>
+
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
 
-    <nav class="navbar" data-aos="fade-down" data-aos-duration="1000">
-        <a href="#home">Home</a>
-        <a href="#projects">Projects</a>
-        <a href="#awards">Awards</a>
-        <a href="#contact">Contact</a>
+    <nav class="navbar">
+        <button class="active" onclick="showPage('home')">Home</button>
+        <button onclick="showPage('about')">About Me</button>
+        <button onclick="showPage('projects')">Projects</button>
+        <button onclick="showPage('awards')">Awards</button>
     </nav>
 
-    <section id="home" class="hero">
-        <h1 data-aos="fade-up">Hi, I'm <span>Samuel Kong</span></h1>
-        <div class="typewriter" id="typed-strings"></div>
-        
-        <div data-aos="zoom-in" data-aos-delay="300" style="margin-top: 20px;">
-            <a href="#projects" class="btn">Explore My Work ↓</a>
-        </div>
-
-        <div class="glass-card quote" data-aos="fade-up" data-aos-delay="500">
-            "Seek his will in all you do, and he will show you which path to take." <br>— Proverbs 3:6
+    <section id="home" class="page active">
+        <div style="text-align: center;">
+            <h1>Hi, I'm <span class="title-gradient">Samuel Kong</span></h1>
+            <div class="typewriter" id="typed-strings"></div>
+            <p style="color: #aaa; max-width: 600px; margin: 20px auto; line-height: 1.6;">
+                A motivated Form 3 student at SMK Sacred Heart. I build tech for the community, lead scout teams, play the bagpipes, and constantly seek new challenges.
+            </p>
+            <button class="btn" onclick="showPage('about')">Discover My Journey</button>
         </div>
     </section>
 
-    <section id="projects">
-        <h2 style="font-size: 2.5rem; text-align: center; margin-bottom: 20px;" data-aos="fade-right">Featured Projects</h2>
-        <div class="projects-grid">
-            
-            <div class="glass-card project-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up">
+    <section id="about" class="page">
+        <h2 class="title-gradient" style="text-align: center; margin-bottom: 40px;">Beyond the Screen</h2>
+        <div class="about-grid">
+            <div class="glass-card" data-tilt data-tilt-max="5">
+                <h3>👑 Leadership & Speaking</h3>
+                <p style="color: #aaa;">Vice Head Prefect II at SMK Sacred Heart. Placed 9th in the 20th Toastmasters International Youth Leadership Camp Impromptu Speech Contest. Always striving to lead by example and communicate effectively.</p>
+            </div>
+            <div class="glass-card" data-tilt data-tilt-max="5">
+                <h3>⚜️ Scouting & Outdoors</h3>
+                <p style="color: #aaa;">Committee Member (First Aid) of 2nd Sibu Scout. Earned multiple skill badges and participated in Jota Camp, Sarawak Scout Eco Run. I love the discipline and teamwork of the outdoors.</p>
+            </div>
+            <div class="glass-card" data-tilt data-tilt-max="5">
+                <h3>🥁 Music & Martial Arts</h3>
+                <p style="color: #aaa;">Drum Major & Side Drummer of the Scout Bagpipe Band, performing in city parades. I also hold a Grade 8 in Taekwondo (MTA). Balance between arts and sports keeps me grounded.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="page">
+        <h2 class="title-gradient" style="text-align: center; margin-bottom: 40px;">Tech for Good</h2>
+        <div class="about-grid">
+            <div class="glass-card" data-tilt>
                 <h3>🛡️ CyberSavvy</h3>
-                <p>An anti-scam platform created to protect local elderly and youth. Inspired by my grandfather's experience, it features game-like quizzes, emergency guides, and multi-language support (English, Malay, Chinese) for the Sibu community.</p>
-                <div class="tags">
-                    <span class="tag">🏆 Coolest Projects 1st Runner Up</span>
-                    <span class="tag">Web Dev</span>
-                    <span class="tag">Community</span>
-                </div>
-                <a href="#" class="btn" style="padding: 8px 20px; font-size: 0.9em; margin-top: 20px;">View GitHub ↗</a>
+                <p style="color: #aaa; height: 100px;">An anti-scam platform created to protect local elderly and youth, inspired by a personal family experience. Features interactive quizzes and emergency guides.</p>
+                <span class="tag">Web Dev</span>
+                <span class="tag">Community</span>
             </div>
-
-            <div class="glass-card project-card" data-tilt data-tilt-max="5" data-tilt-glare data-tilt-max-glare="0.2" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card" data-tilt>
                 <h3>🌊 Flood-Res</h3>
-                <p>A live flood warning system inspired by the devastating Bintulu floods. Combines local weather data and location tracking to provide early warnings and turn complex weather data into practical safety tips for families.</p>
-                <div class="tags">
-                    <span class="tag">🏆 Science Castle Gold Award</span>
-                    <span class="tag">IoT & Data</span>
-                    <span class="tag">UI/UX</span>
-                </div>
-                <a href="#" class="btn" style="padding: 8px 20px; font-size: 0.9em; margin-top: 20px;">Live Demo ↗</a>
+                <p style="color: #aaa; height: 100px;">A live flood warning system inspired by the Bintulu floods. Combines local weather data and location tracking to provide early warnings.</p>
+                <span class="tag">IoT & Data</span>
+                <span class="tag">UI/UX</span>
             </div>
-
         </div>
     </section>
 
-    <section id="awards">
-        <div class="glass-card" data-aos="flip-up" style="max-width: 800px; margin: 0 auto; width: 100%;">
-            <h2 style="font-size: 2rem; color: var(--primary);">Milestones & Achievements</h2>
-            <ul style="line-height: 2.5; color: #ccc; font-size: 1.1rem; padding-left: 20px;">
-                <li><strong>2025:</strong> Champion at Sarawak Space Apps Challenge (Junior)</li>
-                <li><strong>2025:</strong> Gold Award at Science Castle Malaysia (National)</li>
-                <li><strong>2025:</strong> 1st Runner Up at BugCrusher Junior Hackathon</li>
-                <li><strong>2021-2025:</strong> Gold & Silver Awards in Kangaroo Math Competition</li>
-            </ul>
-            <hr style="border-color: var(--border-glass); margin: 30px 0;">
-            <h3 style="font-size: 1.5rem;">Beyond Code</h3>
-            <p style="color: #aaa;">Drum Major in Scout Bagpipe Band, actively engaged in scouting, physics, addmath, and fitness running.</p>
-        </div>
-    </section>
-
-    <section id="contact" style="min-height: 50vh; text-align: center;">
-        <h2 data-aos="fade-in">Let's Build Something Great</h2>
-        <p style="color: #aaa; margin-bottom: 40px;" data-aos="fade-in" data-aos-delay="200">Always open to discussing new projects, creative ideas or opportunities to be part of your visions.</p>
-        <div data-aos="zoom-in" data-aos-delay="400">
-            <a href="mailto:sakobaki20@gmail.com" class="btn" style="margin-right: 15px;">Email Me</a>
-            <a href="https://github.com/a-programmer-cat" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass);">GitHub</a>
-            <a href="https://www.linkedin.com/in/samuelkongbangkiet/" target="_blank" class="btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass);">LinkedIn</a>
+    <section id="awards" class="page">
+        <div class="glass-card" style="max-width: 800px; margin: 0 auto; width: 100%;">
+            <h2 class="title-gradient" style="margin-top: 0;">Hall of Fame</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>🏆 Sarawak Space Apps Challenge (Junior)</h4>
+                    <p>2025 • Champion</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>🥇 Science Castle Malaysia (National)</h4>
+                    <p>2025 • Gold Award</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>🥈 Coolest Projects Malaysia (Senior Web)</h4>
+                    <p>2025 • 1st Runner Up (CyberSavvy)</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>🧠 Kangaroo Math Competition</h4>
+                    <p>2021, 2023 (Gold) • 2025 (Silver)</p>
+                </div>
+                <div class="timeline-item">
+                    <h4>🏅 Catholic High Sibu Math & Science</h4>
+                    <p>2023 • Champion (Individual Category)</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
 
     <script>
-        AOS.init({
-            duration: 800, 
-            once: false, 
-            offset: 100    
+        var typed = new Typed("#typed-strings", {
+            strings: [
+                "A Developer.", 
+                "A Drum Major.", 
+                "A Scout Leader.",
+                "A Math Enthusiast."
+            ],
+            typeSpeed: 50, backSpeed: 30, backDelay: 1500, loop: true
         });
 
-        var options = {
-            strings: [
-                "Full-Stack Web Developer.", 
-                "AI & Hardware Enthusiast.", 
-                "Problem Solver.",
-                "A programmer cat 🐱"
-            ],
-            typeSpeed: 50,
-            backSpeed: 30,
-            backDelay: 1500,
-            loop: true
-        };
-        var typed = new Typed("#typed-strings", options);
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        const interactiveElements = document.querySelectorAll('button, .glass-card, .timeline-item');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '50px';
+                cursor.style.height = '50px';
+                cursor.style.background = 'rgba(0, 242, 254, 0.2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.background = 'rgba(0, 242, 254, 0.5)';
+            });
+        });
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('.navbar button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
     </script>
 </body>
 </html>
