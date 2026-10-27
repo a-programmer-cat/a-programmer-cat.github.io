@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Samuel Kong · My Desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Nunito:wght@600;700;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#2a2433;font-family:Nunito,sans-serif;color:#2c2a3b}
+.wrap{overflow-x:auto}
+.scene{position:relative;width:100%;max-width:1500px;min-width:760px;aspect-ratio:16/9;margin:0 auto;container-type:inline-size;overflow:hidden}
+.wall,.desk,.front{position:absolute;left:0;right:0;z-index:0}
+.wall{top:0;bottom:50.6%;background:linear-gradient(#f4e9d6,#ecdcc2)}
+.desk{top:49.4%;bottom:0;background:linear-gradient(#f0b97d,#e3a468 3%,#d78f55 85%,#c27a45);border-top:.25cqw solid #f7cf9f}
+.front{top:89.7%;bottom:0;background:#a8633a;border-top:.6cqw solid #8d4f2b}
+.front b{position:absolute;top:20%;bottom:-2%;width:30%;background:#b87245;border:.3cqw solid #8d4f2b;border-radius:.5cqw}
+.front b:first-child{left:2%}.front b:last-child{right:2%}
+.front b:after{content:"";position:absolute;left:30%;right:30%;top:18%;height:.7cqw;background:#4b2a17;border-radius:9cqw}
+.o{position:absolute;left:calc(var(--x)*1cqw);top:calc(var(--y)*1cqw);width:calc(var(--w)*1cqw);height:calc(var(--h)*1cqw);transform:rotate(var(--r,0deg));pointer-events:none;transition:opacity .4s,filter .4s}
+.in{position:absolute;inset:0;transition:transform .6s cubic-bezier(.34,1.4,.5,1);filter:drop-shadow(0 .45cqw .4cqw rgba(70,35,10,.3))}
+.in i,.in i b{position:absolute;display:block;font-style:normal}
+.k i{pointer-events:auto;cursor:pointer}
+.k:hover .in,.k:focus-visible .in{transform:translateY(-3%) scale(1.04)}
+.k:focus-visible{outline:none}
+.k:after{content:attr(data-t);position:absolute;left:50%;top:-9%;transform:translateX(-50%);font:800 .8cqw Nunito;background:#232c4f;color:#fff;padding:.25cqw .8cqw;border-radius:9cqw;white-space:nowrap;opacity:0;transition:.2s;pointer-events:none;z-index:5}
+.k:hover:after,.k:focus-visible:after{opacity:1}
+.dim .k:after{display:none}
+.dim .o:not(.a){opacity:.35;filter:saturate(.5)}
+.a{z-index:99!important}
+.a .in{transform:translateY(-5%) scale(1.08);filter:drop-shadow(0 0 1.1cqw rgba(255,225,150,.9))}
+.hint{position:absolute;left:50%;bottom:1.3cqw;transform:translateX(-50%);z-index:200;background:rgba(30,20,40,.55);color:#fff;font:800 1cqw Nunito;padding:.5cqw 1.3cqw;border-radius:9cqw;pointer-events:none;transition:.4s;white-space:nowrap}
+.dim .hint,.hint.h{opacity:0}
+/* effects */
+.scr,.fl{opacity:0;transition:opacity .9s}
+.a .scr{opacity:1}
+.mon.a .s0{box-shadow:0 0 3cqw .8cqw rgba(90,200,255,.5)}
+.cam.a .in{transform:translate(-17cqw,3cqw) scale(1.7) rotate(-6deg)}
+.cam.a .fl{animation:fl 1s .6s}
+.tie.a .in,.scarf.a .in{animation:sw 1.3s ease}
+.cube.a .in{animation:sp 1s ease}
+.md{transition:none}.a .md{animation:fp 1s ease}
+.books.a .tb{transform:translate(2.2cqw,-1cqw)}.tb{transition:transform .6s}
+.drum.a .st{animation:tp .5s ease 4}
+.nt{opacity:0;text-shadow:0 0 .3cqw #000}.a .nt{animation:fn 2s ease-in infinite}
+.tip{border-radius:50%;background:#555;transition:.5s}.a .tip{background:#ff5a2a;box-shadow:0 0 1.2cqw .5cqw #ff7a3a}
+.sm{opacity:0;border-radius:50%;background:rgba(255,255,255,.8);filter:blur(.2cqw)}.a .sm{animation:sm 2s ease-out infinite}
+.a .led{animation:bl .6s steps(2) infinite}
+.trophy.a .in{animation:bob 1.6s ease-in-out infinite}
+@keyframes fl{0%{opacity:0}20%{opacity:1}100%{opacity:0}}
+@keyframes sw{0%,100%{transform:rotate(0)}30%{transform:rotate(9deg)}65%{transform:rotate(-7deg)}}
+@keyframes sp{to{transform:rotate(360deg) scale(1.3)}}
+@keyframes fp{50%{transform:scaleX(.08)}}
+@keyframes tp{50%{transform:rotate(calc(var(--a) + 9deg)) translateY(-10%)}}
+@keyframes fn{0%{opacity:0;transform:translateY(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-6cqw) rotate(15deg)}}
+@keyframes sm{0%{opacity:.8;transform:translateY(0) scale(.5)}100%{opacity:0;transform:translateY(-4cqw) scale(1.6)}}
+@keyframes bl{50%{opacity:.2}}
+@keyframes bob{50%{transform:translateY(-7%) scale(1.12)}}
+@media(prefers-reduced-motion){*{animation:none!important;transition-duration:.01s!important}}
+/* card */
+.bd{position:fixed;inset:0;background:rgba(20,14,30,.45);opacity:0;pointer-events:none;transition:.4s;z-index:300}.bd.on{opacity:1;pointer-events:auto}
+.card{position:fixed;top:0;right:0;height:100%;width:min(400px,90vw);background:#fff7e9;border-left:6px solid #232c4f;box-shadow:-10px 0 30px rgba(0,0,0,.3);transform:translateX(105%);transition:transform .5s cubic-bezier(.22,1,.36,1);z-index:310;display:flex;flex-direction:column}.card.on{transform:none}
+.top{padding:22px 22px 12px;border-bottom:2px dashed rgba(44,42,59,.15);position:relative}
+#ce{font-size:2rem;display:block;margin-bottom:6px}#cy{margin:0 0 4px;font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#7c2a38}
+#ct{margin:0;font:900 1.35rem/1.15 "Zen Maru Gothic",sans-serif;color:#171d38}
+#x{position:absolute;top:18px;right:18px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(44,42,59,.09);font-size:1.1rem;cursor:pointer;transition:.2s}#x:hover{transform:rotate(90deg)}
+#cb{padding:16px 22px 28px;overflow-y:auto;font-size:.92rem;line-height:1.6}
+#cb p{margin:0 0 12px}#cb h4{font:700 .78rem "Zen Maru Gothic";color:#7c2a38;text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px}
+#cb ul{margin:0;padding-left:1.15em}#cb li{margin-bottom:7px}#cb li::marker{color:#b5811f}#cb a{color:#2c8f80;font-weight:700}
+.pl{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}.pl span{background:#232c4f;color:#fff7e9;font-weight:700;font-size:.72rem;padding:5px 10px;border-radius:99px}
+@media(max-width:640px){.card{top:auto;bottom:0;left:0;width:100%;height:auto;max-height:75vh;border-left:0;border-top:6px solid #232c4f;border-radius:20px 20px 0 0;transform:translateY(105%)}.card.on{transform:none}}
+</style></head><body>
+<div class="wrap"><div class="scene" id="s"><div class="wall"></div><div class="desk"></div><div class="front"><b></b><b></b></div><div class="hint" id="hint">✦ tap things on the desk</div></div></div>
+<div class="bd" id="bd"></div>
+<aside class="card" id="cd" aria-live="polite"><div class="top"><button id="x" aria-label="Close">×</button><span id="ce"></span><p id="cy"></p><h2 id="ct"></h2></div><div id="cb"></div></aside>
+<script>
+const sc=document.getElementById('s');
+const G="Zen Maru Gothic",TS="color:#4a4458";
+/* ---------- calendar ---------- */
+const mc=['#9db4e8','#a6d6c4','#b9dfa5','#f2dc7e','#f5b987','#f09aa6'],mn='JANUARY FEBRUARY MARCH APRIL MAY JUNE JULY AUGUST SEPTEMBER OCTOBER NOVEMBER DECEMBER'.split(' ');
+const CAL=[[0,0,100,100,"background:#f6f0e4;border-radius:.3cqw;box-shadow:0 .3cqw .8cqw rgba(0,0,0,.2)"],[0,1,100,12,"font:900 2cqw/1 "+G+";color:#2b2e4f;text-align:center","2026 <small style='font:700 1.2cqw "+G+"'>YEARLY PLANNER</small>"]];
+mn.forEach((n,m)=>{const l=2.5+m%6*15.9,t=15+(m/6|0)*43;CAL.push([l,t,14.5,7,"background:"+mc[m%6]+";font:800 .55cqw/2.4 Nunito;color:#fff;text-align:center",n],[l,t+7,14.5,30,"background:repeating-linear-gradient(0deg,transparent 0 16%,#e4dccb 16% 18%),#fbf8f0"])});
+const SH=[[0,0,100,100,"background:#a06a3a"]];for(let i=0;i<4;i++)SH.push([10,5+i*24,85,17,"background:repeating-linear-gradient(90deg,#3b5ea8 0 12%,#7a3b8f 12% 22%,#c3b27a 22% 36%,#2f7f6f 36% 50%,#b0453d 50% 62%,#2d3b63 62% 78%,#d8c9a0 78% 90%);border-radius:.2cqw"]);
+const lf=(l,t,w,h,c,r)=>[l,t,w,h,`background:${c};border-radius:0 100% 0 100%;transform:rotate(${r}deg)`];
+const clipFace=(p,c)=>[0,0,100,100,`background:${c};clip-path:polygon(${p})`];
+const stk=(t,a)=>[0,0,94,7,`background:linear-gradient(#ecd0a0,#c99d5b);border-radius:9cqw;--a:${a}deg;transform:rotate(var(--a))`,"","st"];
+const ribbon=(l,r)=>[l,0,34,40,`background:linear-gradient(90deg,#2b4fb5 33%,#fff 33% 66%,#c9372c 66%);clip-path:polygon(10% 0,100% 0,80% 100%,0 100%);transform:rotate(${r}deg)`];
+const medal=(l,t,c,n)=>[l,t,34,56,`background:radial-gradient(circle at 35% 30%,${c});border-radius:50%;color:#6b4a10;font:900 1.7cqw/3.4 ${G};text-align:center;border:.2cqw solid rgba(255,255,255,.6)`,n,"md"];
+const CODE=`<span style=color:#c586c0>def</span> <span style=color:#dcdcaa>main</span>():<br>&nbsp;&nbsp;print(<span style=color:#ce9178>"Keep learning, keep building:"</span>)<br>&nbsp;&nbsp;return <span style=color:#569cd6>True</span>`;
+const keys="background:repeating-linear-gradient(90deg,transparent 0 5.5%,#9ea1ad 5.5% 6.6%),repeating-linear-gradient(0deg,transparent 0 20%,#9ea1ad 20% 24%),#f0ebdd";
+const O=[
+/* wall decor */
+{x:28.1,y:.7,w:45.9,h:16.1,z:2,s:CAL},
+{x:79,y:6,w:12,h:8,r:-12,z:2,s:[[0,0,100,100,"font:600 2.4cqw/1.1 Caveat,cursive;"+TS,"Better<br>&nbsp;Days<br>&nbsp;&nbsp;Ahead ☺"]]},
+{x:92.1,y:0,w:7.9,h:31.7,z:2,s:SH},
+{x:0,y:0,w:8,h:17,z:3,s:[lf(10,0,35,40,"#5f9e4d",-20),lf(40,15,40,40,"#4f8f46",10),lf(0,25,38,35,"#74b25a",-40),lf(45,45,40,35,"#5f9e4d",30),[0,62,52,34,"background:#efeae0;border-radius:.3cqw .3cqw 1cqw 1cqw"]]},
+{x:94,y:0,w:6,h:9,z:3,s:[lf(0,10,60,60,"#4f8f46",-60),lf(30,0,60,55,"#5f9e4d",20)]},
+/* chair & desk mats */
+{x:30.2,y:48.4,w:35.3,h:9,z:57,s:[[0,0,100,100,"background:linear-gradient(#2c2d36,#1f2027);border-radius:7cqw 7cqw 0 0"],[10,18,80,82,"background:repeating-linear-gradient(45deg,#1a1b21 0 .3cqw,#262731 .3cqw .6cqw);border-radius:5cqw 5cqw 0 0"]]},
+{x:27.2,y:35.3,w:24.9,h:8.7,z:30,s:[[0,0,100,100,"background:#2a2b33;border-radius:.8cqw"]]},
+{x:28.1,y:35.9,w:23.3,h:6.9,z:31,s:[[0,0,100,100,keys+";border-radius:.5cqw;border:.4cqw solid #b9bcc8"]]},
+{x:51.9,y:36.8,w:8.2,h:7.8,z:30,s:[[0,0,100,100,"background:#2a2b33;border-radius:.8cqw"]]},
+{x:53.2,y:37.6,w:4.5,h:5.6,z:33,s:[[0,0,100,100,"background:linear-gradient(#fff,#d9d9df);border-radius:50% 50% 45% 45%"],[44,8,12,26,"background:#bbb;border-radius:9cqw"]]},
+/* decor left */
+{x:15.7,y:20.6,w:7.8,h:7.8,s:[[20,0,6,55,"background:#c33;transform:rotate(-12deg)"],[34,0,6,55,"background:#222;transform:rotate(-4deg)"],[46,2,6,55,"background:#2a9d8f;transform:rotate(3deg)"],[58,0,6,55,"background:#222;transform:rotate(10deg)"],[68,6,6,50,"background:#e9c46a;transform:rotate(16deg)"],[10,8,6,50,"background:#7a5cc0;transform:rotate(-20deg)"],[8,42,84,58,"background:linear-gradient(#f4f1ea,#d9d4c8);clip-path:polygon(0 0,100% 0,90% 100%,10% 100%)"],[20,62,60,16,"font:800 .75cqw Nunito;color:#555;text-align:center","ZEBRA"]]},
+{x:13.3,y:27.2,w:11.5,h:7.5,r:-10,s:[[0,5,100,90,"background:#f5d676;border-radius:48%"],[0,5,30,90,"background:repeating-linear-gradient(45deg,#e8623a 0 20%,#f5d676 20% 40%);border-radius:48% 0 0 48%"],[42,38,5,16,"background:#3a2a2a;border-radius:50%"],[62,38,5,16,"background:#3a2a2a;border-radius:50%"],[50,56,9,10,"border-bottom:.2cqw solid #3a2a2a;border-radius:50%"],[34,52,9,14,"background:#f7a8b0;border-radius:50%;opacity:.8"],[70,52,9,14,"background:#f7a8b0;border-radius:50%;opacity:.8"]]},
+/* clickable */
+{c:'faith',t:'Faith',x:.3,y:32.6,w:15,h:13.5,r:-7,s:[[0,0,100,84,"background:linear-gradient(#26262c,#131317);border-radius:.6cqw .6cqw .3cqw .3cqw"],[3,82,94,14,"background:repeating-linear-gradient(0deg,#f3e8c8 0 14%,#d8c99a 14% 20%);border-radius:0 0 .4cqw .4cqw"],[22,12,56,22,"color:#d9b25a;font:800 1.1cqw/1.2 "+G+";text-align:center","HOLY<br>BIBLE"],[47,38,6,36,"background:#d9b25a"],[36,50,28,8,"background:#d9b25a"]]},
+{c:'leadership',t:'Leadership',x:14.2,y:35,w:9.7,h:15.8,r:-12,or:'50% 0',f:'tie',s:[[32,0,36,13,"background:linear-gradient(#7c2a38,#5e1e2a);clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)"],[14,11,72,89,"background:repeating-linear-gradient(120deg,#8a2a3a 0 70%,#f1b72a 70% 74%,#8a2a3a 74% 80%,#2b4fb5 80% 84%,#8a2a3a 84%);clip-path:polygon(28% 0,72% 0,100% 84%,50% 100%,0 84%)"],[35,34,32,20,"background:#e0aa3e;border-radius:30% 30% 50% 50%;font:800 .55cqw/2.4 Nunito;color:#7c2a38;text-align:center","SHS"]]},
+{c:'scouting',t:'Scouting',x:19.6,y:33.6,w:9,h:15.4,or:'50% 0',f:'scarf',s:[[12,0,62,34,"border:1cqw solid #c4262e;border-radius:50%"],[22,24,32,76,"background:repeating-linear-gradient(60deg,#c4262e 0 18%,#f1b72a 18% 36%);clip-path:polygon(0 0,100% 0,85% 100%,15% 92%);transform:rotate(8deg)"],[50,22,34,66,"background:repeating-linear-gradient(60deg,#c4262e 0 18%,#f1b72a 18% 36%);clip-path:polygon(0 0,100% 0,90% 92%,10% 100%);transform:rotate(-14deg)"],[30,26,30,22,"background:#232c4f;border-radius:50%;color:#f1b72a;font:700 1.5cqw/2.3 serif;text-align:center","⚜"]]},
+{c:'skills',t:'Skills',x:0,y:18.2,w:15,h:14.4,r:-3,f:'books',s:[[0,64,100,34,"background:linear-gradient(#7a49b0,#573086);border-radius:.4cqw;color:#e9dcff;font:800 1.15cqw/3 "+G+";padding-left:20%","Machine Learning"],[0,35,96,32,"background:linear-gradient(#2f9a8c,#1c6d63);border-radius:.4cqw;color:#e0fff6;font:800 1.2cqw/3 "+G+";padding-left:22%","Python"],[0,5,92,33,"background:linear-gradient(#3b72d9,#27519e);border-radius:.4cqw;color:#fff;font:800 1.7cqw/2.1 "+G+";padding-left:18%","Add Math","tb"]]},
+{c:'about',t:'About me',x:26.2,y:17.3,w:27.4,h:17.2,f:'mon',s:[[0,0,100,77,"background:#1c1e26;border-radius:.8cqw;border:.3cqw solid #353743"],[2,3.5,96,70,"background:#07090e;border-radius:.3cqw","","s0"],[2,3.5,96,70,"background:#0c1118;border-radius:.3cqw;overflow:hidden;font:600 .72cqw/1.6 monospace;color:#9fb4d6;padding:.6cqw .8cqw 0 5.5cqw",CODE,"scr"],[2,3.5,19,70,"background:#12161e;border-radius:.3cqw 0 0 .3cqw;font:600 .58cqw/1.7 monospace;color:#8aa;padding:.5cqw","▸ projects<br>&nbsp;cybersavvy<br>&nbsp;flood_predictor<br>&nbsp;mars_map<br>&nbsp;hardware<br>&nbsp;main.py<br>&nbsp;index.html","scr"],[44,76,12,15,"background:#2b2c35"],[32,90,36,9,"background:#22232a;border-radius:.6cqw .6cqw .2cqw .2cqw"]]},
+{c:'projects',t:'Community projects',x:52.3,y:18.4,w:21,h:17.4,f:'lap',s:[[5,0,90,60,"background:#14151c;border-radius:.6cqw;border:.3cqw solid #2d2e37"],[7.5,3,85,53,"background:linear-gradient(#5b6bb4,#c479a8 52%,#f2a66f 68%,#34457c 69%,#222c58);border-radius:.3cqw;color:#fff;font:700 2.1cqw/1 Nunito;padding:.7cqw 0 0 .8cqw","10:24<div style='font:600 .6cqw Nunito'>Wed, 22 Oct</div>"],[7.5,3,85,53,"background:rgba(10,14,28,.92);border-radius:.3cqw;color:#cfe;font:700 .85cqw/1.8 Nunito;padding:.8cqw","📁 CyberSavvy<br>📁 Flood-Res<br>📁 mars_map","scr"],[0,60,100,36,"background:linear-gradient(#55576a,#3c3d4b);clip-path:polygon(6% 0,94% 0,100% 100%,0 100%)"],[12,64,76,17,"background:repeating-linear-gradient(90deg,transparent 0 5.4%,#3c3d4b 5.4% 6.5%),repeating-linear-gradient(0deg,transparent 0 24%,#3c3d4b 24% 30%),#1f2028"],[36,85,28,9,"background:#62647a;border-radius:.3cqw"],[2,94,96,6,"background:#24252b;border-radius:.4cqw"]]},
+{c:'hobbies',t:'Hobbies',x:72.8,y:22.8,w:10.3,h:8.9,f:'cam',s:[[0,24,100,58,"background:linear-gradient(#41434d,#1c1d24);border-radius:.6cqw"],[28,0,18,12,"background:#2e3039;border-radius:.5cqw .5cqw 0 0"],[0,30,18,52,"background:#2a2b31;border-radius:.5cqw 0 0 .5cqw"],[30,20,56,66,"border-radius:50%;background:radial-gradient(circle at 38% 35%,#8cc4e4,#244b73 38%,#0c1623 75%);border:.4cqw solid #14151a;box-shadow:0 0 0 .25cqw #5a5d6a"],[4,34,22,10,"color:#ddd;font:800 .5cqw Nunito","SONY"],[0,0,100,100,"background:radial-gradient(circle,#fff,transparent 70%)","","fl"]]},
+{c:'tech',t:'Tech awards',x:82.5,y:16.6,w:7.8,h:13.8,f:'trophy',s:[[8,0,84,44,"background:linear-gradient(90deg,#c98d1c,#f6d36a 45%,#c98d1c);border-radius:8% 8% 50% 50%/8% 8% 55% 55%"],[0,4,24,24,"border:.55cqw solid #e0aa3e;border-radius:50%"],[76,4,24,24,"border:.55cqw solid #e0aa3e;border-radius:50%"],[42,43,16,14,"background:#d9a52a"],[22,56,56,8,"background:linear-gradient(#f0c64f,#b87f14);border-radius:.3cqw"],[8,63,84,37,"background:#1d1916;border-radius:.4cqw"],[18,70,64,22,"background:linear-gradient(#e8bf55,#b98a28);color:#4a3306;font:800 .5cqw/1.3 Nunito;text-align:center;padding-top:.3cqw","Champion<br>Space Apps 2025"]]},
+{c:'math',t:'Math awards',x:90,y:17.3,w:6,h:13.2,f:'crystal',s:[[0,0,100,90,"background:linear-gradient(120deg,rgba(150,200,255,.9),rgba(90,150,235,.85) 50%,rgba(170,215,255,.9));clip-path:polygon(25% 0,90% 6%,100% 94%,60% 100%,0 88%,0 10%)"],[12,26,76,44,"color:#fff;font:700 .55cqw/1.4 Nunito;text-align:center;transform:rotate(-8deg)","🦘<br>Kangaroo Math<br>Silver Award<br>2025"],[8,86,90,14,"background:#2b2f3f;border-radius:.3cqw"]]},
+{c:'education',t:'Education',x:95.1,y:27.2,w:4.7,h:5.1,f:'cube',s:[clipFace("50% 0,100% 25%,50% 50%,0 25%","#f4f4f4"),clipFace("0 25%,50% 50%,50% 100%,0 75%","linear-gradient(90deg,#c8392f 0 50%,#2f9a5a 50%)"),clipFace("50% 50%,100% 25%,100% 75%,50% 100%","linear-gradient(90deg,#3e6fd9 0 50%,#e0aa3e 50%)")]},
+{c:'honours',t:'Honours',x:83.4,y:29.3,w:11,h:7.2,s:[ribbon(20,-18),ribbon(48,10),medal(2,34,"#fce8a8,#e0aa3e 55%,#a87715","1"),medal(34,42,"#f3f3f3,#b9bec6 55%,#8a8f98","2"),medal(62,38,"#e7b98c,#b87a45 55%,#8a5a2e","3")]},
+{c:'hardware',t:'Hardware lab',x:60,y:36.8,w:22.8,h:13.4,f:'hw',s:[[2,12,96,86,"background:repeating-linear-gradient(90deg,transparent 0 9%,rgba(255,255,255,.13) 9% 9.6%),repeating-linear-gradient(0deg,transparent 0 11%,rgba(255,255,255,.13) 11% 11.6%),#1e8a6a;clip-path:polygon(0 0,97% 5%,100% 100%,4% 96%)"],[8,52,18,28,"background:#25262c;border-radius:.3cqw;color:#9ad;font:700 .5cqw Nunito;padding:.3cqw","ESP32"],[34,50,16,30,"background:#3b8f45;border-radius:.3cqw"],[56,58,12,24,"background:#c2342d;border-radius:.3cqw"],[8,80,10,15,"background:#1a3b8f;border-radius:.3cqw"],[52,34,40,4,"background:linear-gradient(90deg,#e8c431,#2b6fd6,#d63b32,#2fa84f);border-radius:9cqw"],[74,64,18,22,"background:rgba(255,255,255,.35);border:.12cqw solid rgba(255,255,255,.7);border-radius:.3cqw"],[16,10,22,28,"background:#1d1c1a;border-radius:.4cqw"],[20,18,14,14,"background:#d8b04a;border-radius:.3cqw"],[30,16,64,8,"background:linear-gradient(90deg,#2a2a2e 0 28%,#2b73d6 28% 60%,#2a2a2e 60%);border-radius:9cqw;transform:rotate(12deg);transform-origin:0 50%"],[90,38,3.5,6,"","","tip"],[91,26,3,6,"","","sm"],[88,22,3,6,"animation-delay:.7s","","sm"],[44,86,3,5,"background:#f33;border-radius:50%","","led"],[50,86,3,5,"background:#3f3;border-radius:50%","","led"],[56,88,3,5,"background:#ff3;border-radius:50%","","led"]]},
+{c:'band',t:'Bagpipe band',x:79.5,y:37,w:11,h:8.4,f:'drum',s:[[0,38,94,7,"background:linear-gradient(#ecd0a0,#c99d5b);border-radius:9cqw;--a:-24deg;transform:rotate(var(--a))","","st"],[4,56,94,7,"background:linear-gradient(#ecd0a0,#c99d5b);border-radius:9cqw;--a:-32deg;transform:rotate(var(--a))","","st"]]},
+{c:'band',t:'Bagpipe band',x:82.8,y:36.2,w:12.6,h:12.5,f:'pipe',s:[[-8,46,116,7,"background:linear-gradient(#34343a,#0c0c0f);border-radius:9cqw;transform:rotate(-52deg)"],[-2,54,100,5,"background:linear-gradient(#34343a,#0c0c0f);border-radius:9cqw;transform:rotate(-52deg)"],[46,36,5,18,"background:#c22;border-radius:9cqw"],[53,40,4,18,"background:#0a6;border-radius:9cqw"],[70,0,8,14,"font:700 1.5cqw "+G+";color:#fff","♪","nt"],[80,6,8,14,"font:700 1.5cqw "+G+";color:#fff;animation-delay:.7s","♫","nt"]]},
+{c:'contact',t:'Contact',x:33.5,y:42.8,w:16.7,h:4.2,s:[[0,0,100,100,"background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.25));border:.15cqw solid rgba(255,255,255,.85);border-radius:.4cqw"],[6,4,70,90,"font:600 2.2cqw/1.7 Caveat,cursive;color:#fff;text-shadow:0 .1cqw .3cqw rgba(0,0,0,.4)","Samuel Kong"],[78,18,16,60,"color:#fff;font-size:1.6cqw;line-height:1.5","⛰"]]}
+];
+/* ---------- high-detail objects (groups of small rects/circles) ---------- */
+const B=(l,t,w,h,c,x='')=>`<b style="left:${l}%;top:${t}%;width:${w}%;height:${h}%;${c}">${x}</b>`;
+const rep=(x,y,o)=>{const i=O.findIndex(e=>e.x===x&&e.y===y);O[i]={...O[i],...o}};
+const GOLD="#d9b25a";
+const bk=(y,h,w,c1,c2,fg,tx,fs,tl,em,cls)=>[0,y,w,h,"",
+ B(5,64,92,34,"background:repeating-linear-gradient(#f6eed8 0 20%,#cdbf9c 20% 28%);border-radius:0 .2cqw .3cqw 0")+
+ B(0,0,100,72,`background:linear-gradient(${c1},${c2});border-radius:.5cqw .5cqw .15cqw .15cqw;box-shadow:inset 0 .25cqw 0 rgba(255,255,255,.3),inset 0 -.2cqw 0 rgba(0,0,0,.3)`)+
+ B(0,0,6,72,"background:rgba(0,0,0,.28);border-radius:.5cqw 0 0 .15cqw")+B(7,0,1,72,"background:rgba(255,255,255,.3)")+B(97,0,3,72,"background:rgba(0,0,0,.2)")+
+ B(tl,6,60,60,`font:800 ${fs}cqw/1.1 ${G};color:${fg};text-shadow:0 .1cqw .1cqw rgba(0,0,0,.3);display:flex;align-items:center`,tx)+em,cls];
+const penC="background:linear-gradient(90deg,rgba(255,255,255,.3),transparent 40%,rgba(0,0,0,.2))";
+const pen=(x,r,c,k)=>[x,0,9,60,`background:${c};border-radius:.3cqw .3cqw .1cqw .1cqw;transform:rotate(${r}deg);transform-origin:50% 100%;`,
+ B(0,0,100,100,penC)+B(15,-14,70,22,`background:${k};border-radius:50% 50% 0 0`)+B(75,24,12,34,"background:#ccc")];
+const pens=[[6,-24,"#7b4fc0","#3a2470"],[17,-12,"#222","#555"],[28,-4,"#2a9d8f","#16605a"],[40,3,"#1e1e22","#555"],[51,11,"#e9a43a","#b36d10"],[62,19,"#d23b3b","#821d1d"],[72,27,"#2b6fd6","#173f86"]];
+rep(.3,32.6,{s:[[0,0,100,100,"",
+ B(3,80,94,18,`background:repeating-linear-gradient(0deg,#f6ecc9 0 12%,#d9c88f 12% 18%);border-radius:0 0 .4cqw .4cqw;border-bottom:.25cqw solid ${GOLD}`)+
+ B(0,0,100,84,"background:linear-gradient(160deg,#2c2c34,#111115);border-radius:.6cqw .6cqw .3cqw .3cqw;box-shadow:inset 0 0 0 .18cqw rgba(217,178,90,.4)")+
+ B(0,0,7,84,"background:linear-gradient(90deg,#08080b,#26262d);border-radius:.6cqw 0 0 .3cqw")+B(0,16,7,2,"background:"+GOLD)+B(0,64,7,2,"background:"+GOLD)+
+ B(12,8,80,66,"border:.15cqw solid rgba(217,178,90,.5);border-radius:.3cqw")+B(15,11,74,60,"border:.08cqw solid rgba(217,178,90,.3)")+
+ B(22,14,56,24,`font:800 1.15cqw/1.25 ${G};color:${GOLD};text-align:center;letter-spacing:.1cqw`,"HOLY<br>BIBLE")+
+ B(48,42,5,28,"background:"+GOLD)+B(38,50,25,5,"background:"+GOLD)+
+ B(72,80,5,26,"background:#c33;clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)")]]});
+rep(14.2,35,{s:[[0,0,100,100,"",
+ B(30,0,40,12,"background:linear-gradient(90deg,#5e1e2a,#8f2c3d 50%,#5e1e2a);clip-path:polygon(18% 0,82% 0,100% 100%,0 100%)")+
+ B(45,4,10,7,"background:rgba(0,0,0,.28);border-radius:50%")+
+ B(12,10,76,90,"clip-path:polygon(30% 0,70% 0,100% 84%,50% 100%,0 84%);background:linear-gradient(90deg,#6b2030,#92303f 38%,#7c2a38 70%,#5a1c28)",
+  B(0,0,100,100,"background:repeating-linear-gradient(115deg,transparent 0 60%,#e8b830 60% 63%,transparent 63% 70%,#2b4fb5 70% 74%,transparent 74% 100%)")+B(0,0,100,100,"background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 25%,rgba(0,0,0,.18))"))+
+ B(33,31,34,22,"background:linear-gradient(#f0c640,#b98a28);clip-path:polygon(0 0,100% 0,100% 60%,50% 100%,0 60%)",B(14,12,72,55,"background:#7c2a38;clip-path:polygon(0 0,100% 0,100% 60%,50% 100%,0 60%)",B(0,18,100,40,`font:800 .6cqw/2 Nunito;color:#f0c640;text-align:center`,"SHS")))+
+ B(22,58,56,7,"font:800 .45cqw Nunito;color:#f0c640;text-align:center;letter-spacing:.05cqw","PENGAWAS")]]});
+rep(19.6,33.6,{s:[[0,0,100,100,"",
+ B(22,24,32,76,"background:repeating-linear-gradient(60deg,#c4262e 0 18%,#f1b72a 18% 36%);clip-path:polygon(0 0,100% 0,85% 100%,15% 92%);transform:rotate(8deg)",B(0,0,100,100,"background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 30%,rgba(255,255,255,.12))"))+
+ B(50,22,34,66,"background:repeating-linear-gradient(60deg,#c4262e 0 18%,#f1b72a 18% 36%);clip-path:polygon(0 0,100% 0,90% 92%,10% 100%);transform:rotate(-14deg)",B(0,0,100,100,"background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 40%,rgba(0,0,0,.18))"))+
+ B(12,0,62,34,"border:1cqw solid #c4262e;border-radius:50%;box-shadow:inset 0 0 0 .25cqw #8a1a22,0 .2cqw .3cqw rgba(0,0,0,.25)")+
+ B(18,6,50,22,"border:.35cqw solid #f1b72a;border-radius:50%;opacity:.85")+
+ B(28,24,32,24,"background:radial-gradient(circle,#232c4f 0 46%,#e8b830 48% 66%,#8a6a14 68%);border-radius:50%;color:#f1b72a;font:700 1.3cqw/2.5 serif;text-align:center","⚜")]]});
+rep(0,18.2,{s:[
+ bk(64,34,100,"#8a55c4","#573086","#efe2ff","Machine Learning",1.1,14,B(79,14,15,44,"border:.14cqw solid rgba(255,255,255,.7);border-radius:50%")+B(83,27,7,18,"background:rgba(255,255,255,.7);border-radius:50%")+B(7,0,0,0,"")),
+ bk(35,31,96,"#35a898","#1c6d63","#e0fff6","Python",1.25,26,B(14,22,9,52,"background:linear-gradient(135deg,#3b78b8 50%,#f3d03e 50%);border-radius:35%")+B(80,16,14,44,"border:.14cqw solid rgba(255,255,255,.6);border-radius:.25cqw")),
+ bk(5,33,92,"#4a84e6","#27519e","#fff","Add Math",1.75,16,B(80,14,13,46,`border:.14cqw solid rgba(255,255,255,.75);border-radius:.25cqw;color:#fff;font:800 .9cqw/2.6 Nunito;text-align:center`,"∑"),"tb")]});
+rep(15.7,20.6,{s:[
+ [0,0,100,100,"",pens.map(p=>B(...[p[0],0,9,60].slice(0,4),p[2]?`background:${p[2]};border-radius:.3cqw .3cqw .1cqw .1cqw;transform:rotate(${p[1]}deg);transform-origin:50% 100%`:"",B(0,0,100,100,penC)+B(15,-14,70,22,`background:${p[3]};border-radius:50% 50% 0 0`)+B(75,24,12,34,"background:#ccc"))).join("")+
+ B(6,40,88,60,"background:linear-gradient(90deg,#d5d0c3,#fbf9f4 40%,#e4dfd2);clip-path:polygon(0 0,100% 0,88% 100%,12% 100%)")+B(6,40,88,6,"background:#fff;border-radius:.3cqw;box-shadow:0 .1cqw .2cqw rgba(0,0,0,.2)")+
+ B(24,62,52,16,"font:900 .8cqw/2 Nunito;color:#666;text-align:center;border-top:.1cqw solid #bbb;border-bottom:.1cqw solid #bbb","ZEBRA")]]});
+rep(13.3,27.2,{s:[[0,0,100,100,"",
+ B(0,6,100,88,"background:radial-gradient(ellipse at 40% 30%,#fbe58f,#f2cb62 70%,#e0ae44);border-radius:46%;box-shadow:inset 0 -.4cqw .6cqw rgba(190,120,20,.35)")+
+ B(0,6,30,88,"background:repeating-linear-gradient(55deg,#e65a3a 0 12%,#f6c34f 12% 28%);border-radius:46% 0 0 46%")+
+ B(14,14,4,60,"background:repeating-linear-gradient(0deg,#222 0 8%,#8a8a8a 8% 16%);border-radius:9cqw;transform:rotate(12deg)")+
+ B(40,38,6,20,"background:#2b1d1d;border-radius:50%",B(25,12,40,30,"background:#fff;border-radius:50%"))+
+ B(62,38,6,20,"background:#2b1d1d;border-radius:50%",B(25,12,40,30,"background:#fff;border-radius:50%"))+
+ B(47,58,5,10,"border-bottom:.2cqw solid #3a2a2a;border-radius:50%")+B(52,58,5,10,"border-bottom:.2cqw solid #3a2a2a;border-radius:50%")+
+ B(31,54,10,16,"background:#f7a8b0;border-radius:50%;opacity:.8")+B(70,54,10,16,"background:#f7a8b0;border-radius:50%;opacity:.8")+
+ B(10,10,26,12,"background:rgba(255,255,255,.35);border-radius:50%")]]});
+
+O.forEach(o=>{const e=document.createElement('div');e.className='o'+(o.c?' k ':' ')+(o.f||'');e.style.cssText=`--x:${o.x};--y:${o.y};--w:${o.w};--h:${o.h};--r:${o.r||0}deg;z-index:${o.z||Math.round(o.y+o.h)}`;
+if(o.c){e.dataset.c=o.c;e.dataset.t=o.t;e.tabIndex=0;e.setAttribute('role','button');e.setAttribute('aria-label',o.t)}
+const n=document.createElement('div');n.className='in';n.style.transformOrigin=o.or||'50% 60%';
+n.innerHTML=o.s.map(([l,t,w,h,css,tx,cl])=>`<i class="${cl||''}" style="left:${l}%;top:${t}%;width:${w}%;height:${h}%;${css||''}">${tx||''}</i>`).join('');e.append(n);sc.append(e)});
+/* ---------- cards ---------- */
+const L=a=>"<ul>"+a.map(s=>"<li>"+s.replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")+"</li>").join("")+"</ul>";
+const P=a=>"<div class=pl>"+a.map(s=>"<span>"+s+"</span>").join("")+"</div>";
+const D={
+about:["🖥️","About me","Hi, I'm Samuel",`<p>A motivated, well-rounded secondary school student at SMK Sacred Heart, Sibu, with interests in leadership, community engagement, mathematics and technology.</p><p>Student leadership, scouting, youth fellowship, public speaking and marching band have built my teamwork, communication and organisational skills. I love problem-solving, continuous learning and contributing to my community — especially on issues that affect young people.</p>`+P(["Leadership","Teamwork","Public Speaking","Problem Solving","Project Management"])],
+projects:["💻","Community projects","Building for Sibu",`<h4>CyberSavvy</h4><p>After my grandfather lost his savings to a scam, I built a platform to protect elderly and young people from online scams: game-like quizzes from real local stories, a space to share experiences, emergency guides, in English, Malay and Chinese.</p><p><a href="https://cyber-savvy-five.vercel.app" target=_blank rel=noopener>cyber-savvy-five.vercel.app</a><br>Coolest Projects Malaysia 2025 (Senior Web) — <b>1st Runner-up</b></p><h4>Flood-Res</h4><p>After relatives lost their home in the 2025 Bintulu floods, I designed a location-based live flood warning system that turns weather data into simple safety tips for families.</p><p><a href="https://bit.ly/flood-res" target=_blank rel=noopener>bit.ly/flood-res</a><br>Science Castle Malaysia 2025 (National) — <b>Gold Award</b></p>`],
+contact:["🪪","Get in touch","Contact",`<p>☎ +60-1123840722<br>✉ sakobaki20@gmail.com<br>📍 96000 Sibu, Sarawak</p>`+L(['<a href="https://www.linkedin.com/in/samuelkongbangkiet/" target=_blank rel=noopener>linkedin.com/in/samuelkongbangkiet</a>','<a href="https://github.com/a-programmer-cat" target=_blank rel=noopener>github.com/a-programmer-cat</a>'])],
+skills:["📚","What I build with","Skills",P(["Artificial Intelligence","Game Development","Full-Stack Web Development","Application Development","Hardware Development"])+"<h4>Alongside</h4>"+P(["Leadership","Teamwork & Collaboration","Public Speaking","Problem Solving & Creativity","Project & Time Management"])],
+hobbies:["📷","Outside the classroom","Hobbies",P(["Programming","Photography","Reading","Scouting","Bagpipe Band","Listening to Music","Solving Maths problems","Fitness","Running"])+"<h4>Languages</h4><p>English, Malay and Chinese — all fluent.</p>"],
+faith:["✝️","Fellowship","Faith & fellowship",L(["Committee member, Shiuan En Methodist Church Junior Youth Fellowship","Methodist Church Malaysia Sarawak Chinese Annual Conference (SCAC)"])],
+leadership:["👔","Leadership","Leading from the front",L(["SMK Sacred Heart Junior Prefectorial Board — **Vice Head Prefect II**","SMK Sacred Heart Mathematics Club 2025/2026 — **Committee Member**","2nd Sibu Scout Committee Member 2025/2026 — **First Aid**","Bagpipe Band — **Drum Major**"])],
+scouting:["🧣","2nd Sibu Scout","Scouting",L(["Earned **Lencana Usaha**, **Lencana Maju**, 2 Interest Badges and 3 Skill (Proficiency) Badges","Jota Camp 2025, SK Jalan Deshon","Sarawak Scout Eco Run 4.0 2025, Kanowit","Sarawak Scout Eco Run 5.0 2026, Sibu","More than 5 camps held by 2nd Sibu Scout Company"])],
+band:["🥁","SMK Sacred Heart 2nd Sibu Scout Bagpipe Band","Bagpipe Band","<p><b>Drum Major</b> and <b>Side Drummer</b>, and learning the bagpipe.</p>"+L(["Christmas Parade Sibu 2024 and 2025","Several other performances and parade events"])],
+tech:["🏆","Technology & innovation","Competition awards",L(["Sarawak Space Apps Challenge 2025 (Junior) — **Champion**","Coolest Projects Malaysia 2025 (Senior Web) — **1st Runner-up**","BugCrusher Junior Hackathon 2025 (National) — **1st Runner-up**","Science Castle Malaysia 2025 (National) — **Gold Award**","Smart Innovation Competition 2025 (International) — **Silver Award**","3rd International Innovation & Invention Competition 2025 — **Silver Award**","PALS Conference 2024, Bintulu — **2nd Runner-up**","Coolest Projects Malaysia 2023 (Junior Games) — **Honorable Mention**"])],
+math:["🦘","Mathematics & science","Numbers & competitions",L(["Kangaroo Math 2025 (National) — **Silver Award**","Kangaroo Math 2023 & 2021 (National) — **Gold Award**","Catholic High School Sibu P6 Science, Maths & Trilingual 2023 — **Champion**","ASMO Maths Olympiad School Round 2024 — **Merit Award**","Malaysia Intl Mathematical Arithmetic 2023 — **Distinction** (Olympiad), **Bronze** (Invitational)","37th Ka Yin Chu National SJKC Maths 2023 — **Merit Award**","Olympia Mathematics Competition 2022 — **Platinum**","4th Benedict Goh Schools Maths Championship 2021 — **Diamond Award**"])],
+education:["🧊","Education","Sacred Heart School",`<p><b>SMK Sacred Heart, Sibu</b> · 2024 – 2028</p>`+L(["2026 First Term Examination: **7A 3B 1C**","Consistently **Top 3** in the whole grade, 2024 – 2026"])],
+honours:["🥇","Leadership, language & general excellence","Honours",L(["20th Toastmasters Intl Youth Leadership Camp 2025, Impromptu Speech — **9th Place**","Sarawak Scout Association Creative Video Competition 2025 — **2nd Runner-up**","Anugerah Pencapaian Cemerlang Sukan / Kokurikulum, Sibu (2022–2024)","15th Singapore-Malaysia-Brunei On-The-Spot Chinese Creative Essay Writing 2023 — **Honorable Mention**","Sarawak Taekwondo Association (MTA) promotion test 2022 — **Grade 8**"])],
+hardware:["🔧","Hardware development","The hardware lab","<p>ESP32 boards, sensors and a soldering iron — this is where my ideas turn into things you can hold. Hardware development is one of my core skills, alongside AI, game, web and app development.</p>"]
+};
+const $=i=>document.getElementById(i),cd=$('cd'),bd=$('bd');let cur=null;
+function close(){document.querySelectorAll('.a').forEach(e=>e.classList.remove('a'));sc.classList.remove('dim');cd.classList.remove('on');bd.classList.remove('on');cur=null}
+function open(e){const d=D[e.dataset.c];close();$('ce').textContent=d[0];$('cy').textContent=d[1];$('ct').textContent=d[2];$('cb').innerHTML=d[3];$('cb').scrollTop=0;e.classList.add('a');sc.classList.add('dim');cd.classList.add('on');bd.classList.add('on');cur=e;$('hint').classList.add('h')}
+document.querySelectorAll('.k').forEach(e=>{e.onclick=()=>cur===e?close():open(e);e.onkeydown=k=>{if(k.key==='Enter'||k.key===' '){k.preventDefault();e.click()}}});
+bd.onclick=$('x').onclick=close;document.onkeydown=k=>{if(k.key==='Escape')close()};
+</script></body></html>
